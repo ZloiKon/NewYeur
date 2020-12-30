@@ -93,17 +93,27 @@ setInterval(function(){
     // Разность дат
     let diff = newYear - now;
 
-    let days = Math.floor( diff/(24*60*60*1000) );
-    let hours = Math.floor( (diff%(24*60*60*1000)) / (60*60*1000) );
-    let minutes = Math.floor( (diff%(60*60*1000)) / (60*1000));
-    let seconds = Math.floor( (diff%(60*1000)) / 1000);
+    // Проверяем что таймер не истёк
+    if(diff > 0){
+        let days = Math.floor( diff/(24*60*60*1000) );
+        let hours = Math.floor( (diff%(24*60*60*1000)) / (60*60*1000) );
+        let minutes = Math.floor( (diff%(60*60*1000)) / (60*1000));
+        let seconds = Math.floor( (diff%(60*1000)) / 1000);
 
-    $(".seconds").text(seconds);
-    $(".minutes").text(minutes + " :");
-    $(".hours").text(hours + " :");
-    $(".days").text(days + " :");
-
+        $(".seconds").text(seconds);
+        $(".minutes").text(minutes + " :");
+        $(".hours").text(hours + " :");
+        $(".days").text(days + " :");
+    }
+    else{
+        $("#countdown p, #countdownMobile p").text("Новый Год Наступил!")
+        $("#countdown, #countdownMobile").fadeOut(2000, function(){
+            $(this).remove();
+            $(".envlope-wrapper").fadeIn(1000).removeClass("d-none")
+        });
+    }
 }, 1000)
+
 
 
 // Анимация шляпы снеговика
@@ -127,3 +137,9 @@ setInterval(function(){
         $(".hand-r").removeClass("hand-rSwing");
     }, 1500)
 }, 3500)
+
+// Открываем и закрываем открытку
+$(".envlope-wrapper").click(function (e) { 
+    $("#envelope").toggleClass("open");
+    $("#envelope").toggleClass("close");
+});
